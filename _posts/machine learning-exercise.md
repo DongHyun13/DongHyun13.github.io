@@ -1,10 +1,6 @@
 ---
 layout: single
-title:  "jupyter notebook 변환하기!"
-categories: coding
-tag: [python, blog, jekyll]
-toc: true
-author_profile: false
+title:  "2019250035 이동현 과제"
 ---
 
 <head>
@@ -164,3 +160,25 @@ print("Accuracy: {:.2f}%".format(accuracy*100))
 /kaggle/input/titanic/gender_submission.csv
 Accuracy: 100.00%
 </pre>
+
+1. Pandas를 사용하여 학습용 데이터(train)와 테스트용 데이터(test)를 불러온다.
+
+2. 불필요한 변수(PassengerId, Name, Ticket, Cabin, Embarked)를 제거한다.
+
+3. 결측치를 처리한다. 학습용 데이터에서는 dropna() 함수를 사용하여 결측치가 있는 행을 삭제하고, 테스트용 데이터에서는 fillna() 함수를 사용하여 Age와 Fare 변수의 결측치를 0으로 채운다.
+
+4. 범주형 변수(Sex)를 더미 변수화한다.
+
+5. 데이터 스케일링을 수행한다. StandardScaler를 사용하여 Age와 Fare 변수를 스케일링한다.
+
+6. 학습용 데이터(X_train)와 레이블(y_train), 테스트용 데이터(X_test)를 분리한다.
+
+7. 로지스틱 회귀 모델(LogisticRegression)을 학습한다.
+
+8. 학습된 모델을 사용하여 테스트 데이터에 대한 예측(y_pred)을 수행한다.
+
+9. 예측 결과를 submission.csv 파일에 저장한다.
+
+10. sklearn.metrics 모듈의 accuracy_score 함수를 사용하여 정확도(accuracy)를 계산한다.
+
+11. 계산된 정확도를 출력한다.
