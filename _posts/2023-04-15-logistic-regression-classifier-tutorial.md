@@ -79,95 +79,71 @@ author_profile: false
 
 <a class="anchor" id="0"></a>
 
-# **Logistic Regression Classifier Tutorial with Python**
+# **파이썬으로 구현하는 로지스틱 회귀 분류기**
 
 
 
 
+이 튜토리얼에서는 파이썬과 Scikit-Learn을 사용하여 로지스틱 회귀(Logistic Regression)를 구현합니다. 호주 내일 비가 올지 여부를 예측하는 로지스틱 회귀 분류기를 구축하고, 로지스틱 회귀를 사용하여 이진 분류 모델을 학습합니다. 
 
-Hello friends,
-
-
-
-
-
-In this kernel, I implement Logistic Regression with Python and Scikit-Learn. I build a Logistic Regression classifier to predict whether or not it will rain tomorrow in Australia. I train a binary classification model using Logistic Regression. 
-
-
-**As always, I hope you find this kernel useful and your <font color="red"><b>UPVOTES</b></font> would be highly appreciated**.
 
 
 
 <a class="anchor" id="0.1"></a>
 
-# **Table of Contents**
+# **목차**
 
 
 
 
 
-1.	[Introduction to Logistic Regression](#1)
+1.	[로지스틱 회귀 소개](#1)
 
-2.	[Logistic Regression intuition](#2)
+2.	[로지스틱 회귀 이해](#2)
 
-3.	[Assumptions of Logistic Regression](#3)
+3.	[로지스틱 회귀 가정](#3)
 
-4.	[Types of Logistic Regression](#4)
+4.	[로지스틱 회귀 유형](#4)
 
-5.	[Import libraries](#5)
+5.	[라이브러리 Import](#5)
 
-6.	[Import dataset](#6)
+6.	[데이터셋 Import](#6)
 
-7.	[Exploratory data analysis](#7)
+7.	[탐색적 데이터 분석](#7)
 
-8.	[Declare feature vector and target variable](#8)
+8.	[피처 벡터 및 타겟 변수 선언](#8)
 
-9.	[Split data into separate training and test set](#9)
+9.	[데이터를 학습 및 테스트 세트로 분리](#9)
 
-10.	[Feature engineering](#10)
+10.	[피처 엔지니어링](#10)
 
-11.	[Feature scaling](#11)
+11.	[피처 스케일링](#11)
 
-12.	[Model training](#12)
+12.	[모델 학습](#12)
 
-13.	[Predict results](#13)
+13.	[결과 예측](#13)
 
-14.	[Check accuracy score](#14)
+14.	[정확도 점수 확인](#14)
 
-15.	[Confusion matrix](#15)
+15.	[혼동 행렬](#15)
 
-16.	[Classification metrices](#16)
+16.	[분류 메트릭스](#16)
 
-17.	[Adjusting the threshold level](#17)
+17.	[임계값 조정](#17)
 
 18.	[ROC - AUC](#18)
 
-19.	[k-Fold Cross Validation](#19)
+19.	[k-Fold 교차 검증](#19)
 
-20.	[Hyperparameter optimization using GridSearch CV](#20)
+20.	[그리드 서치를 사용한 하이퍼파라미터 최적화](#20)
 
-21.	[Results and conclusion](#21)
+21.	[결과 및 결론](#21)
 
-22. [References](#22)
-
-
-
-# **1. Introduction to Logistic Regression** <a class="anchor" id="1"></a>
+22. [참고 문헌](#22)
 
 
 
-
-
-[Table of Contents](#0.1)
-
-
-
-
-
-When data scientists may come across a new classification problem, the first algorithm that may come across their mind is **Logistic Regression**. It is a supervised learning classification algorithm which is used to predict observations to a discrete set of classes. Practically, it is used to classify observations into different categories. Hence, its output is discrete in nature. **Logistic Regression** is also called **Logit Regression**. It is one of the most simple, straightforward and versatile classification algorithms which is used to solve classification problems.
-
-
-# **2. Logistic Regression intuition** <a class="anchor" id="2"></a>
+# **1. 로지스틱 회귀 소개** <a class="anchor" id="1"></a>
 
 
 
@@ -179,28 +155,41 @@ When data scientists may come across a new classification problem, the first alg
 
 
 
-In statistics, the **Logistic Regression model** is a widely used statistical model which is primarily used for classification purposes. It means that given a set of observations, Logistic Regression algorithm helps us to classify these observations into two or more discrete classes. So, the target variable is discrete in nature.
+새로운 분류 문제를 다룰 때, 데이터 과학자들이 먼저 떠오르는 알고리즘은 **로지스틱 회귀**일 것입니다. **로지스틱 회귀**는 이산적인 클래스로 예측을 하기 위해 사용되는 지도 학습 분류 알고리즘입니다. 실제로, 관측치를 서로 다른 범주로 분류하는 데 사용됩니다. 따라서, 출력 값은 이산적인 특징을 가지게 됩니다. **로지스틱 회귀**는 **로짓 회귀**(Logit Regression)라고도 불리며, 분류 문제를 해결하기 위해 가장 간단하고 직관적이며 다목적인 분류 알고리즘 중 하나입니다.
+
+
+# **2. 로지스틱 회귀 이해** <a class="anchor" id="2"></a>
 
 
 
 
 
-The Logistic Regression algorithm works as follows -
-
-
-## **Implement linear equation**
+[Table of Contents](#0.1)
 
 
 
 
 
-Logistic Regression algorithm works by implementing a linear equation with independent or explanatory variables to predict a response value. For example, we consider the example of number of hours studied and probability of passing the exam. Here, number of hours studied is the explanatory variable and it is denoted by x1. Probability of passing the exam is the response or target variable and it is denoted by z.
+로지스틱 회귀 모델은 주로 분류 목적으로 사용되는 통계 모델입니다. 이는 주어진 관측치를 두 개 이상의 이산적인 클래스로 분류하는 데에 사용됩니다. 따라서 대상 변수는 이산적인 특성을 가집니다.
+
+로지스틱 회귀 알고리즘은 다음과 같이 작동합니다.
+
+
+
+
+## **선형 방정식 구현**
 
 
 
 
 
-If we have one explanatory variable (x1) and one response variable (z), then the linear equation would be given mathematically with the following equation-
+로지스틱 회귀 알고리즘은 독립 또는 설명 변수와 함께 선형 방정식을 구현하여 응답 값을 예측합니다. 예를 들어, 공부한 시간과 시험 통과 확률의 예를 고려해 보겠습니다. 여기서 공부한 시간은 설명 변수이며 x1로 표시됩니다. 시험 통과 확률은 반응 또는 대상 변수이며 z로 표시됩니다.
+
+
+
+
+
+만약 설명 변수(x1)와 대상 변수(z)가 하나씩이라면, 선형 방정식은 다음과 같이 수학적으로 주어집니다.
 
 
 
@@ -208,13 +197,13 @@ If we have one explanatory variable (x1) and one response variable (z), then the
 
 
 
-Here, the coefficients β0 and β1 are the parameters of the model.
+여기서 계수 β0과 β1은 모델의 매개 변수입니다.
 
 
 
 
 
-If there are multiple explanatory variables, then the above equation can be extended to
+만약 여러 개의 설명 변수가 있다면, 위의 방정식은 다음과 같이 확장될 수 있습니다.
 
 
 
@@ -222,48 +211,47 @@ If there are multiple explanatory variables, then the above equation can be exte
 
     
 
-Here, the coefficients β0, β1, β2 and βn are the parameters of the model.
+여기서 계수 β0, β1, β2 및 βn은 모델의 매개 변수입니다.
 
 
 
-So, the predicted response value is given by the above equations and is denoted by z.
 
-
-## **Sigmoid Function**
-
-
-
-This predicted response value, denoted by z is then converted into a probability value that lie between 0 and 1. We use the sigmoid function in order to map predicted values to probability values. This sigmoid function then maps any real value into a probability value between 0 and 1.
+그러므로 예측된 응답 값은 위의 방정식으로 주어지며 z로 표시됩니다.
 
 
 
-In machine learning, sigmoid function is used to map predictions to probabilities. The sigmoid function has an S shaped curve. It is also called sigmoid curve.
+## **Sigmoid 함수**
 
 
 
-A Sigmoid function is a special case of the Logistic function. It is given by the following mathematical formula.
+로지스틱 회귀 모델에서 예측된 응답 값은 z로 나타내고, 이를 0과 1 사이의 확률 값으로 변환하는 데 시그모이드 함수를 사용합니다. 이 시그모이드 함수는 임의의 실수 값을 0과 1 사이의 확률 값으로 매핑합니다. 
+
+
+머신러닝에서는 이 함수를 예측 값을 확률 값으로 매핑하기 위해 사용합니다. 시그모이드 함수는 S자 형태의 곡선을 가지며 시그모이드 곡선이라고도 합니다.
+
+
+시그모이드 함수는 로지스틱 함수의 특수한 경우로 다음 수식으로 표현됩니다.
 
 
 
-Graphically, we can represent sigmoid function with the following graph.
+시각적으로는 다음 그래프로 시그모이드 함수를 나타낼 수 있습니다.
 
-
-### Sigmoid Function
+### Sigmoid 함수
 
 
 
 ![Sigmoid Function](https://miro.medium.com/max/970/1*Xu7B5y9gp0iL5ooBj7LtWw.png)
 
 
-## **Decision boundary**
+## **결정 경계**
 
 
 
-The sigmoid function returns a probability value between 0 and 1. This probability value is then mapped to a discrete class which is either “0” or “1”. In order to map this probability value to a discrete class (pass/fail, yes/no, true/false), we select a threshold value. This threshold value is called Decision boundary. Above this threshold value, we will map the probability values into class 1 and below which we will map values into class 0.
+시그모이드 함수는 0과 1 사이의 확률 값을 반환합니다. 이 확률 값을 이진 분류(합격/불합격, 예/아니오, 참/거짓)로 매핑하려면 임계값을 선택합니다. 이 임계값을 결정 경계라고 합니다. 결정 경계 이상의 값은 클래스 1로 매핑하고 이하의 값은 클래스 0으로 매핑합니다.
 
 
 
-Mathematically, it can be expressed as follows:-
+수학적으로는 다음과 같이 표현할 수 있습니다.
 
 
 
@@ -275,56 +263,22 @@ p < 0.5 => class = 0
 
 
 
-Generally, the decision boundary is set to 0.5. So, if the probability value is 0.8 (> 0.5), we will map this observation to class 1. Similarly, if the probability value is 0.2 (< 0.5), we will map this observation to class 0. This is represented in the graph below-
+일반적으로 결정 경계는 0.5로 설정됩니다. 예를 들어, 확률 값이 0.8(> 0.5)인 경우, 해당 관측치를 클래스 1로 매핑합니다. 비슷하게, 확률 값이 0.2(< 0.5)인 경우, 해당 관측치를 클래스 0으로 매핑합니다. 이는 아래 그래프로 나타낼 수 있습니다.
 
 
 ![Decision boundary in sigmoid function](https://ml-cheatsheet.readthedocs.io/en/latest/_images/logistic_regression_sigmoid_w_threshold.png)
 
 
-## **Making predictions**
+## **예측하기**
 
 
 
-Now, we know about sigmoid function and decision boundary in logistic regression. We can use our knowledge of sigmoid function and decision boundary to write a prediction function. A prediction function in logistic regression returns the probability of the observation being positive, Yes or True. We call this as class 1 and it is denoted by P(class = 1). If the probability inches closer to one, then we will be more confident about our model that the observation is in class 1, otherwise it is in class 0.
+이제 우리는 로지스틱 회귀에서 시그모이드 함수와 결정 경계에 대해 알고 있습니다. 시그모이드 함수와 결정 경계에 대한 지식을 사용하여 예측 함수를 작성할 수 있습니다. 로지스틱 회귀의 예측 함수는 관측치가 긍정적인 (Yes 또는 True) P(class=1)에 속할 확률을 반환합니다. 확률이 1에 가까워질수록 모델이 관측치가 클래스 1에 속한다는 것이 확실해 집니다.
+그렇지 않으면 클래스 0에 속한다고 합니다.
 
 
 
-# **3. Assumptions of Logistic Regression** <a class="anchor" id="3"></a>
-
-
-
-
-
-[Table of Contents](#0.1)
-
-
-
-
-
-The Logistic Regression model requires several key assumptions. These are as follows:-
-
-
-
-1. Logistic Regression model requires the dependent variable to be binary, multinomial or ordinal in nature.
-
-
-
-2. It requires the observations to be independent of each other. So, the observations should not come from repeated measurements.
-
-
-
-3. Logistic Regression algorithm requires little or no multicollinearity among the independent variables. It means that the independent variables should not be too highly correlated with each other.
-
-
-
-4. Logistic Regression model assumes linearity of independent variables and log odds.
-
-
-
-5. The success of Logistic Regression model depends on the sample sizes. Typically, it requires a large sample size to achieve the high accuracy.
-
-
-# **4. Types of Logistic Regression** <a class="anchor" id="4"></a>
+# **3. 로지스틱 회귀 가정** <a class="anchor" id="3"></a>
 
 
 
@@ -336,39 +290,68 @@ The Logistic Regression model requires several key assumptions. These are as fol
 
 
 
-Logistic Regression model can be classified into three groups based on the target variable categories. These three groups are described below:-
+로지스틱 회귀 모델은 몇 가지 중요한 가정을 필요로 합니다. 이러한 가정은 다음과 같습니다.
 
 
 
-### 1. Binary Logistic Regression
+1. 로지스틱 회귀 모델은 종속 변수가 이항, 다항 또는 순서형이어야 합니다.
 
 
 
-In Binary Logistic Regression, the target variable has two possible categories. The common examples of categories are yes or no, good or bad, true or false, spam or no spam and pass or fail.
+2. 각 관측치는 서로 독립적이어야 합니다. 따라서 관측치는 반복 측정에서 오지 않아야 합니다.
+
+
+3. 로지스틱 회귀 알고리즘은 독립 변수 간 다중공선성이 없거나 적어야 합니다. 이것은 독립 변수들이 서로 과도하게 상관 관계가 없어야 한다는 것을 의미합니다.
+
+
+4. 로지스틱 회귀 모델은 독립 변수와 로그 오즈의 선형성을 가정합니다.
+
+
+5. 로지스틱 회귀 모델의 성공은 샘플 크기에 달려 있습니다. 일반적으로 높은 정확도를 달성하려면 큰 샘플 크기가 필요합니다.
+
+
+
+# **4. 로지스틱 회귀 유형** <a class="anchor" id="4"></a>
 
 
 
 
 
-### 2. Multinomial Logistic Regression
-
-
-
-In Multinomial Logistic Regression, the target variable has three or more categories which are not in any particular order. So, there are three or more nominal categories. The examples include the type of categories of fruits - apple, mango, orange and banana.
+[Table of Contents](#0.1)
 
 
 
 
 
-### 3. Ordinal Logistic Regression
+로지스틱 회귀 모델은 대상 변수 카테고리에 따라 세 가지 그룹으로 분류될 수 있습니다. 이 세 가지 그룹은 다음과 같습니다.
+
+
+### 1. 바이너리 로지스틱 회귀
+
+
+바이너리 로지스틱 회귀에서 대상 변수는 두 가지 가능한 카테고리를 가지고 있습니다. 대표적인 예로는 예 또는 아니오, 좋음 또는 나쁨, 참 또는 거짓, 스팸 또는 스팸이 아님, 통과 또는 실패 등이 있습니다.
 
 
 
-In Ordinal Logistic Regression, the target variable has three or more ordinal categories. So, there is intrinsic order involved with the categories. For example, the student performance can be categorized as poor, average, good and excellent.
+
+
+### 2. 다항 로지스틱 회귀
 
 
 
-# **5. Import libraries** <a class="anchor" id="5"></a>
+다항 로지스틱 회귀에서 대상 변수는 서로 특정한 순서가 없는 세 개 이상의 카테고리가 있습니다. 따라서 이러한 경우 명목적인 카테고리가 세 개 이상입니다. 예를 들어, 과일 카테고리의 종류는 사과, 망고, 오렌지, 바나나 등이 있습니다.
+
+
+
+
+### 3. 순차적 로지스틱 회귀
+
+
+순차적 로지스틱 회귀에서 대상 변수는 세 개 이상의 순서형 카테고리를 가지고 있습니다. 따라서 이러한 카테고리에는 내재적인 순서가 포함됩니다. 예를 들어, 학생 성적은 낮음, 평균, 우수, 최우수와 같이 분류될 수 있습니다.
+
+
+
+# **5. 라이브러리 임포트** <a class="anchor" id="5"></a>
 
 
 
@@ -410,7 +393,7 @@ import warnings
 warnings.filterwarnings('ignore')
 ```
 
-# **6. Import dataset** <a class="anchor" id="6"></a>
+# **6. 데이터셋 임포트** <a class="anchor" id="6"></a>
 
 
 
@@ -426,7 +409,7 @@ data = '/kaggle/input/weather-dataset-rattle-package/weatherAUS.csv'
 df = pd.read_csv(data)
 ```
 
-# **7. Exploratory data analysis** <a class="anchor" id="7"></a>
+# **7. 탐색적 데이터 분석** <a class="anchor" id="7"></a>
 
 
 
@@ -438,8 +421,7 @@ df = pd.read_csv(data)
 
 
 
-Now, I will explore the data to gain insights about the data. 
-
+이제 데이터를 탐색하여 데이터에 대한 인사이트를 얻어보겠습니다.
 
 
 ```python
@@ -451,8 +433,7 @@ df.shape
 <pre>
 (142193, 24)
 </pre>
-We can see that there are 142193 instances and 24 variables in the data set.
-
+데이터셋에는 142193개의 인스턴스와 24개의 변수가 있습니다.
 
 
 ```python
@@ -644,14 +625,11 @@ Index(['Date', 'Location', 'MinTemp', 'MaxTemp', 'Rainfall', 'Evaporation',
        'Temp3pm', 'RainToday', 'RISK_MM', 'RainTomorrow'],
       dtype='object')
 </pre>
-### Drop  RISK_MM variable
+### RISK_MM 변수 삭제
 
 
 
-It is given in the dataset description, that we should drop the `RISK_MM` feature variable from the dataset description. So, we 
-
-should drop it as follows-
-
+데이터셋 설명에 따르면, RISK_MM 변수를 삭제해야 합니다. 따라서 다음과 같이 삭제해야 합니다.
 
 
 ```python
@@ -695,20 +673,19 @@ RainTomorrow     142193 non-null object
 dtypes: float64(16), object(7)
 memory usage: 25.0+ MB
 </pre>
-### Types of variables
+### 변수 유형
 
 
 
 
 
-In this section, I segregate the dataset into categorical and numerical variables. There are a mixture of categorical and numerical variables in the dataset. Categorical variables have data type object. Numerical variables have data type float64.
+이번 섹션에서는 데이터셋을 범주형 변수와 수치형 변수로 분리하겠습니다. 데이터셋에는 범주형 변수와 수치형 변수가 혼합되어 있습니다. 범주형 변수는 데이터 유형이 객체입니다. 수치형 변수는 데이터 유형이 float64입니다.
 
 
 
 
 
-First of all, I will find categorical variables.
-
+먼저, 범주형 변수를 찾겠습니다.
 
 
 ```python
@@ -816,46 +793,43 @@ df[categorical].head()
 </div>
 
 
-### Summary of categorical variables
+### 범주형 변수 요약
+
+
+
+
+- 데이터셋에는 'Date' 열로 표시되는 날짜 변수가 있다.
 
 
 
 
 
-- There is a date variable. It is denoted by `Date` column.
+-  'Location', 'WindGustDir', 'WindDir9am', 'WindDir3pm', 'RainToday' 및 'RainTomorrow'로 구성된 6개의 범주형 변수가 있다.
+
+
+
+
+- 'RainToday' 및 'RainTomorrow'은 바이너리 범주형 변수 중 두 개입니다.
+
+
+
+
+- 'RainTomorrow'은 타겟 변수입니다.
+
+
+
+## 범주형 변수 내의 문제 탐색
 
 
 
 
 
-- There are 6 categorical variables. These are given by `Location`, `WindGustDir`, `WindDir9am`, `WindDir3pm`, `RainToday` and  `RainTomorrow`.
+먼저 범주형 변수를 탐색해보겠습니다.
 
 
 
 
-
-- There are two binary categorical variables - `RainToday` and  `RainTomorrow`.
-
-
-
-
-
-- `RainTomorrow` is the target variable.
-
-
-## Explore problems within categorical variables
-
-
-
-
-
-First, I will explore the categorical variables.
-
-
-
-
-
-### Missing values in categorical variables
+### 범주형 변수에서 결측값 찾기
 
 
 
@@ -891,16 +865,15 @@ WindDir3pm      3778
 RainToday       1406
 dtype: int64
 </pre>
-We can see that there are only 4 categorical variables in the dataset which contains missing values. These are `WindGustDir`, `WindDir9am`, `WindDir3pm` and `RainToday`.
+데이터셋에서 결측값이 있는 범주형 변수는 'WindGustDir', 'WindDir9am', 'WindDir3pm' 및 'RainToday'이며, 총 4개입니다.
 
 
-### Frequency counts of categorical variables
+### 범주형 변수의 빈도수
 
 
 
 
-
-Now, I will check the frequency counts of categorical variables.
+이제 범주형 변수의 빈도수를 확인해보겠습니다.
 
 
 
@@ -1163,13 +1136,13 @@ No     0.775819
 Yes    0.224181
 Name: RainTomorrow, dtype: float64
 </pre>
-### Number of labels: cardinality
+### 레이블 수: cardinality
 
 
 
 
 
-The number of labels within a categorical variable is known as **cardinality**. A high number of labels within a variable is known as **high cardinality**. High cardinality may pose some serious problems in the machine learning model. So, I will check for high cardinality.
+범주형 변수 내의 레이블 수를 카디널리티(cardinality)라고 합니다. 변수 내 레이블의 수가 많을수록 고카디널리티(high cardinality)입니다. 고카디널리티는 머신 러닝 모델에서 일부 심각한 문제를 야기할 수 있으므로, 고카디널리티를 확인해보겠습니다.
 
 
 
@@ -1190,17 +1163,16 @@ WindDir3pm  contains  17  labels
 RainToday  contains  3  labels
 RainTomorrow  contains  2  labels
 </pre>
-We can see that there is a `Date` variable which needs to be preprocessed. I will do preprocessing in the following section.
+날짜 변수가 존재하며 전처리가 필요한 것으로 나타납니다. 다음 섹션에서 전처리를 진행하겠습니다.
 
 
 
 
 
-All the other variables contain relatively smaller number of variables.
+다른 변수들은 상대적으로 작은 변수 수를 갖고 있습니다.
 
 
-### Feature Engineering of Date Variable
-
+### 날짜 변수의 피처 엔지니어링
 
 
 ```python
@@ -1210,7 +1182,7 @@ df['Date'].dtypes
 <pre>
 dtype('O')
 </pre>
-We can see that the data type of `Date` variable is object. I will parse the date currently coded as object into datetime format.
+데이터셋에서 Date 변수의 데이터 타입은 object입니다. 따라서 Date 변수를 datetime 형식으로 파싱할 것입니다.
 
 
 
@@ -1311,7 +1283,7 @@ Day              142193 non-null int64
 dtypes: datetime64[ns](1), float64(16), int64(3), object(6)
 memory usage: 28.2+ MB
 </pre>
-We can see that there are three additional columns created from `Date` variable. Now, I will drop the original `Date` variable from the dataset.
+Date 변수에서 파생된 새로운 3개의 열이 생성된 것을 확인할 수 있습니다. 이제 원래의 'Date' 변수를 데이터셋에서 삭제할 것입니다.
 
 
 
@@ -1496,17 +1468,17 @@ df.head()
 </div>
 
 
-Now, we can see that the `Date` variable has been removed from the dataset.
+데이터셋에서 'Date' 변수가 삭제된 것을 확인할 수 있습니다.
 
 
 
-### Explore Categorical Variables
+### 범주형 변수 조사하기
 
 
 
 
 
-Now, I will explore the categorical variables one by one. 
+이제 각각의 범주형 변수를 하나씩 조사해보겠습니다.
 
 
 
@@ -1525,8 +1497,7 @@ There are 6 categorical variables
 
 The categorical variables are : ['Location', 'WindGustDir', 'WindDir9am', 'WindDir3pm', 'RainToday', 'RainTomorrow']
 </pre>
-We can see that there are 6 categorical variables in the dataset. The `Date` variable has been removed. First, I will check missing values in categorical variables.
-
+데이터셋에는 총 6개의 범주형 변수가 존재합니다. 'Date' 변수는 삭제되었습니다. 먼저, 범주형 변수에서 결측값을 확인해보겠습니다.
 
 
 ```python
@@ -1544,10 +1515,10 @@ RainToday        1406
 RainTomorrow        0
 dtype: int64
 </pre>
-We can see that `WindGustDir`, `WindDir9am`, `WindDir3pm`, `RainToday` variables contain missing values. I will explore these variables one by one.
+`WindGustDir`, `WindDir9am`, `WindDir3pm`, `RainToday` 변수에 결측값이 존재하는 것을 확인할 수 있습니다. 이제 각각의 변수를 조사해보겠습니다.
 
 
-### Explore `Location` variable
+### `Location` 변수 탐색
 
 
 
@@ -1815,7 +1786,7 @@ pd.get_dummies(df.Location, drop_first=True).head()
 </div>
 
 
-### Explore `WindGustDir` variable
+### `WindGustDir` 
 
 
 
@@ -4469,7 +4440,7 @@ X_test.head()
 We now have training and testing set ready for model building. Before that, we should map all the feature variables onto the same scale. It is called `feature scaling`. I will do it as follows.
 
 
-# **11. Feature Scaling** <a class="anchor" id="11"></a>
+# **11. 피처 스케일링** <a class="anchor" id="11"></a>
 
 
 
@@ -5081,7 +5052,7 @@ logreg.predict_proba(X_test)[:,1]
 array([0.08617572, 0.16434355, 0.17966085, ..., 0.02325715, 0.20144902,
        0.69265839])
 </pre>
-# **14. Check accuracy score** <a class="anchor" id="14"></a>
+# **14. 정확도 점수 확인** <a class="anchor" id="14"></a>
 
 
 
@@ -5288,7 +5259,7 @@ But, it does not give the underlying distribution of values. Also, it does not t
 We have another tool called `Confusion matrix` that comes to our rescue.
 
 
-# **15. Confusion matrix** <a class="anchor" id="15"></a>
+# **15. 혼동 행렬** <a class="anchor" id="15"></a>
 
 
 
@@ -5425,7 +5396,7 @@ sns.heatmap(cm_matrix, annot=True, fmt='d', cmap='YlGnBu')
 </pre>
 <img src="data:image/png;base64,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"/>
 
-# **16. Classification metrices** <a class="anchor" id="16"></a>
+# **16. 분류 메트릭스** <a class="anchor" id="16"></a>
 
 
 
@@ -5657,7 +5628,7 @@ compare classifier models, not global accuracy.
 **Support** is the actual number of occurrences of the class in our dataset.
 
 
-# **17. Adjusting the threshold level** <a class="anchor" id="17"></a>
+# **17. 임계값 조정** <a class="anchor" id="17"></a>
 
 
 
@@ -6225,7 +6196,7 @@ print('Cross validated ROC AUC : {:.4f}'.format(Cross_validated_ROC_AUC))
 <pre>
 Cross validated ROC AUC : 0.8695
 </pre>
-# **19. k-Fold Cross Validation** <a class="anchor" id="19"></a>
+# **19. k-Fold 교차 검증** <a class="anchor" id="19"></a>
 
 
 
@@ -6264,7 +6235,7 @@ Average cross-validation score: 0.8474
 Our, original model score is found to be 0.8476. The average cross-validation score is 0.8474. So, we can conclude that cross-validation does not result in performance improvement.
 
 
-# **20. Hyperparameter Optimization using GridSearch CV** <a class="anchor" id="20"></a>
+# **20. 그리드 서치를 사용한 하이퍼파라미터 최적화** <a class="anchor" id="20"></a>
 
 
 
@@ -6364,7 +6335,7 @@ GridSearch CV score on test set: 0.8507
 - We can see that GridSearch CV improve the performance for this particular model.
 
 
-# **21. Results and conclusion** <a class="anchor" id="21"></a>
+# **21. 결과 및 결론** <a class="anchor" id="21"></a>
 
 
 
@@ -6413,7 +6384,7 @@ GridSearch CV score on test set: 0.8507
 
 
 
-# **22. References** <a class="anchor" id="22"></a>
+# **22. 참고 문헌** <a class="anchor" id="22"></a>
 
 
 
